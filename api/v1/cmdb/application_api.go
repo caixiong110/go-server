@@ -38,7 +38,7 @@ func (a *ApplicationApi) GetApplicationList(c *gin.Context) {
 	if err != nil {
 		response.FailWithMessage("获取applications失败", c)
 	} else {
-		response.OkWithDetailed(gin.H{"app": apps, "total": total}, "更新成功", c)
+		response.OkWithDetailed(gin.H{"list": apps, "total": total}, "更新成功", c)
 	}
 
 }
@@ -49,7 +49,7 @@ func (a *ApplicationApi) AddApplication(c *gin.Context) {
 	_ = c.ShouldBindJSON(&application)
 
 	_, app := applicationService.AddApplication(application)
-	c.JSON(200, app)
+	response.OkWithDetailed(gin.H{"app": app}, "创建成功", c)
 
 }
 
