@@ -4,6 +4,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/cmdb"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/cmdb/request"
+	commonReq "github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -69,8 +70,10 @@ func (a *ApplicationApi) UpdateApplication(c *gin.Context) {
 
 func (a *ApplicationApi) DeleteApplication(c *gin.Context) {
 	log.Println("删除application信息")
-	id := c.Param("id")
-	if err := applicationService.DeleteApplication(id); err != nil {
+	var reqId commonReq.GetByIdStr
+	_ = c.ShouldBindJSON(&reqId)
+
+	if err := applicationService.DeleteApplication(reqId.ID); err != nil {
 		global.GVA_LOG.Error("删除失败!", zap.Any("err", err))
 		response.FailWithMessage("删除失败", c)
 	} else {

@@ -17,6 +17,6 @@ func (s *ApplicationRouter) InitApplicationRouter(Router *gin.RouterGroup) {
 		applicationRouter.POST("getApplicationList", applicationApi.GetApplicationList) //
 		applicationRouter.POST("create", applicationApi.AddApplication)                 //
 		applicationRouter.PUT("update", applicationApi.UpdateApplication)               //
-		applicationRouter.DELETE("delete/:id", applicationApi.DeleteApplication)        //
+		applicationRouter.DELETE("delete", applicationApi.DeleteApplication)            //
 	}
 }
