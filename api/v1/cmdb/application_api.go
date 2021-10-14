@@ -24,10 +24,11 @@ type ApplicationApi struct {
 // @Router /api/getApiById [post]
 func (a *ApplicationApi) GetApplicationById(c *gin.Context) {
 	log.Println("获取application信息")
-	id := c.Param("id")
-	log.Printf("application id: %s", id)
-	_, app := applicationService.GetApplication(id)
-	c.JSON(200, app)
+	var reqId commonReq.GetByIdStr
+	_ = c.ShouldBindJSON(&reqId)
+	log.Printf("application id: %s", reqId.ID)
+	_, app := applicationService.GetApplication(reqId.ID)
+	response.OkWithDetailed(gin.H{"app": app}, "更新成功", c)
 
 }
 

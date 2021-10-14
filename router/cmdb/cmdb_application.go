@@ -13,7 +13,7 @@ func (s *ApplicationRouter) InitApplicationRouter(Router *gin.RouterGroup) {
 	applicationRouter := Router.Group("application").Use(middleware.OperationRecord())
 	var applicationApi = v1.ApiGroupApp.CmdbApiGroup.ApplicationApi
 	{
-		applicationRouter.GET("get/:id", applicationApi.GetApplicationById)             //
+		applicationRouter.POST("getApplicationById", applicationApi.GetApplicationById) //
 		applicationRouter.POST("getApplicationList", applicationApi.GetApplicationList) //
 		applicationRouter.POST("create", applicationApi.AddApplication)                 //
 		applicationRouter.PUT("update", applicationApi.UpdateApplication)               //
