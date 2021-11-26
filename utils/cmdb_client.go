@@ -65,9 +65,9 @@ func (client *CMDBClient) CMDBRequest(method string, uri string, data interface{
 
 	url := fmt.Sprintf("%s/%s?%s", Host, uri, url_params)
 	fmt.Println(url)
-
+	fmt.Println(data)
 	body, _ := json.Marshal(data)
-	fmt.Println(body)
+	fmt.Println(string(body))
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(body))
 	if err != nil {
 		fmt.Println(err.Error())
@@ -107,7 +107,6 @@ func (client *CMDBClient) Signature(accessKey string, secretKey string, requestT
 		:return:
 	*/
 	var url_params = ""
-	println(url_params)
 	if method == "GET" || method == "DELETE" {
 		v := reflect.ValueOf(data)
 		if v.Kind() == reflect.Map {
@@ -120,14 +119,16 @@ func (client *CMDBClient) Signature(accessKey string, secretKey string, requestT
 	var body_content string
 	if method == "POST" || method == "PUT" {
 		dataJson, err := json.Marshal(data)
+		fmt.Println(dataJson)
 		if err != nil {
 			fmt.Print(err)
 		}
 		body_content = fmt.Sprintf("%x", md5.Sum(dataJson))
+
 	}
 	sign_str := fmt.Sprintf("%s\n%s\n%s\n%s\n%s\n%s\n%s", method, uri, url_params, "application/json", body_content, fmt.Sprint(requestTime), accessKey)
+	fmt.Println(sign_str)
 	sign := client.HmacSHA1(secretKey, sign_str)
-	println(sign)
 	return sign
 }
 
